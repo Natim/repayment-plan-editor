@@ -68,21 +68,44 @@ generate { capital_amount, commission_percentage, date, installment_amount } =
                         Decimal.sub total_amount paid
 
                     cash_flow =
-                        if Decimal.toFloat remaining > Decimal.toFloat installment_amount && index /= installments_count - 1 then
+                        if Decimal.toFloat remaining >= Decimal.toFloat installment_amount && index /= installments_count - 1 then
                             installment_amount
 
                         else
                             remaining
 
                     capital_share =
-                        Decimal.fastdiv cash_flow markup
-                            |> Maybe.withDefault Decimal.zero
-                            |> percent
-                            |> Decimal.fromString
-                            |> Maybe.withDefault Decimal.zero
+                        if index /= installments_count - 1 then
+                            Decimal.fastdiv cash_flow markup
+                                |> Maybe.withDefault Decimal.zero
+                                |> euros
+                                |> Decimal.fromString
+                                |> Maybe.withDefault Decimal.zero
+
+                        else
+                            Decimal.fastdiv cash_flow markup
+                                |> Maybe.withDefault Decimal.zero
+                                |> Decimal.toFloat
+                                |> Round.ceiling 2
+                                |> Decimal.fromString
+                                |> Maybe.withDefault Decimal.zero
 
                     commission_share =
                         Decimal.sub cash_flow capital_share
+
+                    remaining_capital_to_reimburse =
+                        Decimal.sub remaining_capital_to_reimburse_at_start capital_share
+                            |> euros
+                            |> Decimal.fromString
+                            |> Maybe.withDefault Decimal.zero
+
+                    remaining_capital_to_reimburse_at_start =
+                        Decimal.fromInt index
+                            |> Decimal.mul capital_share
+                            |> Decimal.sub capital_amount
+                            |> euros
+                            |> Decimal.fromString
+                            |> Maybe.withDefault Decimal.zero
                 in
                 { empty
                     | date = toString installment_date
@@ -90,6 +113,9 @@ generate { capital_amount, commission_percentage, date, installment_amount } =
                     , cash_flow = cash_flow
                     , capital_amount = capital_share
                     , commission_amount = commission_share
+                    , total_left_to_pay = remaining
+                    , remaining_capital_to_reimburse = remaining_capital_to_reimburse
+                    , remaining_capital_to_reimburse_at_start = remaining_capital_to_reimburse_at_start
                 }
             )
         |> RepaymentPlan

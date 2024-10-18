@@ -81,11 +81,9 @@ encode repayment_plan =
         loan_amount =
             capitalAmount repayment_plan
                 |> Decimal.toFloat
-                |> Debug.log "loan_amount"
 
         installments =
             List.map (.cash_flow >> Decimal.toFloat) repayment_plan.rows
-                |> Debug.log "installments"
     in
     Encode.object
         [ ( "rows", Encode.list Installment.encode repayment_plan.rows )
