@@ -1,0 +1,6 @@
+repos:
+- repo: https://github.com/Natim/elm-format-installer
+  rev: '8382361ed98147e549c8ddce9f84110964283c48'
+  hooks:
+    - id: elm-format
+

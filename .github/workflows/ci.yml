@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Fetch the latest commit, only
+        fetch-depth: 1
+
+    - name: Install a recent version of Python3
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install requirements
+      run:  pip install pre-commit
+
+    - name: Check code
+      run:  pre-commit run --all-files --show-diff-on-failure
