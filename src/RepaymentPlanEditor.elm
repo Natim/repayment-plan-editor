@@ -180,4 +180,6 @@ view ({ repayment_plan } as model) =
         , RepaymentPlan.form repayment_plan
         , Html.hr [] []
         , RepaymentPlan.summary repayment_plan
+        , Html.hr [] []
+        , RepaymentPlan.json repayment_plan
         ]

@@ -1,4 +1,4 @@
-module Views.RepaymentPlan exposing (form, generator, summary)
+module Views.RepaymentPlan exposing (form, generator, json, summary)
 
 import Data.Generator as Generator exposing (GeneratorFields(..))
 import Data.Installment as Installment exposing (Fields(..), Installment)
@@ -9,6 +9,7 @@ import Decimal
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Json.Encode as Encode
 import Views.Utils exposing (euros, percent)
 
 
@@ -96,4 +97,13 @@ summary repayment_plan =
                 , text " %"
                 ]
             ]
+        ]
+
+
+json : RepaymentPlan -> Html Msg
+json repayment_plan =
+    textarea [ style "width" "500px", style "height" "800px" ]
+        [ RepaymentPlan.encode repayment_plan
+            |> Encode.encode 2
+            |> text
         ]

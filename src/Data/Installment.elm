@@ -1,10 +1,20 @@
-module Data.Installment exposing (Fields(..), FlagsInstallment, Installment, decode, empty, fromFlagsInstallment)
+module Data.Installment exposing
+    ( Fields(..)
+    , FlagsInstallment
+    , Installment
+    , decode
+    , empty
+    , encode
+    , fromFlagsInstallment
+    )
 
 import Data.Decimal as Decimal
 import Decimal exposing (Decimal)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)
+import Json.Encode as Encode
 import String exposing (left)
+import Views.Utils exposing (euros)
 
 
 type Fields
@@ -79,3 +89,41 @@ decode =
         |> required "total_left_to_pay" Decimal.decode
         |> required "remaining_capital_to_reimburse" Decimal.decode
         |> required "remaining_capital_to_reimburse_at_start" Decimal.decode
+
+
+encode : Installment -> Encode.Value
+encode installment =
+    Encode.object
+        [ ( "date", Encode.string installment.date )
+        , ( "cash_flow", Encode.string installment.amount )
+        , ( "capital_amount"
+          , installment.capital_amount
+                |> euros
+                |> Encode.string
+          )
+        , ( "interest_amount"
+          , installment.interest_amount
+                |> euros
+                |> Encode.string
+          )
+        , ( "commission_amount"
+          , installment.commission_amount
+                |> euros
+                |> Encode.string
+          )
+        , ( "total_left_to_pay"
+          , installment.total_left_to_pay
+                |> euros
+                |> Encode.string
+          )
+        , ( "remaining_capital_to_reimburse"
+          , installment.remaining_capital_to_reimburse
+                |> euros
+                |> Encode.string
+          )
+        , ( "remaining_capital_to_reimburse_at_start"
+          , installment.remaining_capital_to_reimburse_at_start
+                |> euros
+                |> Encode.string
+          )
+        ]
