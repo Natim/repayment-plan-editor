@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Silvr Repayment Plan Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <style>
+      .card {
+          background-color: #fff;
+          border: 1px solid #e4e4e4;
+          border-radius: 6px;
+          padding: 15px 25px;
+          margin-bottom: 20px;
+          transition: all 0.2s ease-in-out;
+      }
+
+      .card h3 {
+          margin-top: 0;
+          margin-bottom: 20px;
+          position: relative;
+      }
+
+      .card .paragraph {
+          /*border-bottom: 1px solid rgba(42, 63, 84, 0.2);*/
+          margin-bottom: 10px;
+      }
+
+      .card .paragraph:last-child {
+          margin-bottom: 0;
+      }
+
+      .card.error-card {
+          background-color: rgba(242, 222, 222, 0.5);
+          border: 1px solid darkred;
+      }
+
+      .card.info-card {
+          background-color: #eff3fb;
+          border: 1px solid #4d85e5;
+          color: #4d85e5;
+      }
+
+      .card h4 {
+          margin-top: 30px;
+      }
+      .card p {
+          margin-bottom: 30px;
+      }
+      </style>
+</head>
+<body class="container-fluid" style="background-color: #f7f7f7">
+    <br/>
+    <div id="app"></div>
+    <script src="app.js"></script>
+    <script>
+        const element = document.getElementById("app");
+
+        const app = Elm.RepaymentPlanEditor.init({
+            node: element,
+            flags: {
+              "repayment_plan": {
+                "rows": [
+                    {
+                        "date": "2024-11-18",
+                        "cash_flow": "3724.30",
+                        "capital_amount": "3500.00",
+                        "interest_amount": "0.00",
+                        "commission_amount": "224.30",
+                        "total_left_to_pay": "7448.59",
+                        "remaining_capital_to_reimburse": "7000.00",
+                        "remaining_capital_to_reimburse_at_start": "10500.00"
+                    },
+                    {
+                        "date": "2024-12-18",
+                        "cash_flow": "3724.30",
+                        "capital_amount": "3500.00",
+                        "interest_amount": "0.00",
+                        "commission_amount": "224.30",
+                        "total_left_to_pay": "3724.29",
+                        "remaining_capital_to_reimburse": "3500.00",
+                        "remaining_capital_to_reimburse_at_start": "7000.00"
+                    },
+                    {
+                        "date": "2025-01-18",
+                        "cash_flow": "3724.29",
+                        "capital_amount": "3500.00",
+                        "interest_amount": "0.00",
+                        "commission_amount": "224.29",
+                        "total_left_to_pay": "0.00",
+                        "remaining_capital_to_reimburse": "0.00",
+                        "remaining_capital_to_reimburse_at_start": "3500.00"
+                    }
+                ],
+                "initial_cash_flow": "-10500.00",
+                "total_cost_of_credit": "672.89",
+                "total_interest_amount": "0.00",
+                "overall_effective_rate": "38.05",
+                "total_commission_amount": "672.89",
+                "fixed_commission_on_initial_amount": "0.00",
+                "total_cost_of_credit_as_percentage": "6.02",
+                "fixed_commission_on_capital_percent": "0.00",
+                "fixed_commission_on_initial_amount_percent": "0.00"
+              }
+          }
+	    });
+  </script>
+</body>
+</html>
