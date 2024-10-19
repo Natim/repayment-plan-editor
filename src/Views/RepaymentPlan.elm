@@ -1,5 +1,6 @@
 module Views.RepaymentPlan exposing (form, generator, json, summary)
 
+import Data.Decimal exposing (euros, percent)
 import Data.Generator as Generator exposing (GeneratorFields(..))
 import Data.Installment as Installment exposing (Fields(..), Installment)
 import Data.Model exposing (Model)
@@ -10,7 +11,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Json.Encode as Encode
-import Views.Utils exposing (euros, percent)
 
 
 generator : Model -> Html Msg

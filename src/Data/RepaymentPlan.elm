@@ -10,7 +10,7 @@ module Data.RepaymentPlan exposing
     , fromFlagsRepaymentPlan
     )
 
-import Data.Decimal as Decimal
+import Data.Decimal as Decimal exposing (euros, percent)
 import Data.Installment as Installment exposing (FlagsInstallment, Installment)
 import Decimal exposing (Decimal)
 import Json.Decode as Decode exposing (Decoder)
@@ -19,7 +19,6 @@ import Json.Encode as Encode
 import Round
 import String exposing (left)
 import Utils.InterestRate exposing (optimal_interest_rate)
-import Views.Utils exposing (euros, percent)
 
 
 type alias FlagsRepaymentPlan =

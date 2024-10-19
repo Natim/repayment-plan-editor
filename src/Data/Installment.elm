@@ -8,13 +8,12 @@ module Data.Installment exposing
     , fromFlagsInstallment
     )
 
-import Data.Decimal as Decimal
+import Data.Decimal as Decimal exposing (euros)
 import Decimal exposing (Decimal)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (required)
 import Json.Encode as Encode
 import String exposing (left)
-import Views.Utils exposing (euros)
 
 
 type Fields

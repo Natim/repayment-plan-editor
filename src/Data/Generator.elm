@@ -1,5 +1,6 @@
 module Data.Generator exposing (GeneratorFields(..), generate)
 
+import Data.Decimal exposing (euros, percent)
 import Data.Installment exposing (empty)
 import Data.Model exposing (Model)
 import Data.RepaymentPlan exposing (RepaymentPlan)
@@ -8,7 +9,6 @@ import Iso8601
 import Round
 import Time exposing (Month(..), Posix, utc)
 import Time.Extra as TE exposing (Interval(..))
-import Views.Utils exposing (euros, percent)
 
 
 type GeneratorFields

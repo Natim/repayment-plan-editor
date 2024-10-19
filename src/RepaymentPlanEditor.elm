@@ -1,6 +1,7 @@
 module RepaymentPlanEditor exposing (main)
 
 import Browser
+import Data.Decimal exposing (euros, percent)
 import Data.Flags exposing (Flags)
 import Data.Generator as Generator exposing (GeneratorFields(..))
 import Data.Installment as Installment exposing (Fields(..))
@@ -11,7 +12,6 @@ import Decimal
 import Html exposing (Html, div)
 import Json.Decode exposing (decodeValue)
 import Views.RepaymentPlan as RepaymentPlan
-import Views.Utils exposing (euros, percent)
 
 
 main : Program Flags Model Msg
