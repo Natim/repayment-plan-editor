@@ -14,7 +14,7 @@ import Time.Extra as TE exposing (Interval(..))
 type GeneratorFields
     = Date
     | Installment
-    | Capital
+    | LeftToPay
     | Commission
 
 
@@ -36,13 +36,13 @@ schedulePaymentDates installments_count starting_date =
 
 
 generate : Model -> RepaymentPlan
-generate { capital_amount, commission_percentage, date, installment_amount } =
+generate { left_to_pay_amount, commission_percentage, date, installment_amount } =
     let
         starting_date =
             toPosix date
 
         installments_count =
-            Decimal.fastdiv capital_amount installment_amount
+            Decimal.fastdiv left_to_pay_amount installment_amount
                 |> Maybe.withDefault Decimal.one
                 |> Decimal.toFloat
                 |> Round.ceilingNum 0
@@ -58,14 +58,15 @@ generate { capital_amount, commission_percentage, date, installment_amount } =
                     markup =
                         Decimal.add Decimal.one commission_percentage
 
-                    total_amount =
-                        Decimal.mul markup capital_amount
+                    capital_amount =
+                        Decimal.fastdiv left_to_pay_amount markup
+                            |> Maybe.withDefault Decimal.zero
 
                     paid =
                         Decimal.mul (Decimal.fromInt index) installment_amount
 
                     remaining =
-                        Decimal.sub total_amount paid
+                        Decimal.sub left_to_pay_amount paid
 
                     cash_flow =
                         if Decimal.toFloat remaining >= Decimal.toFloat installment_amount && index /= installments_count - 1 then

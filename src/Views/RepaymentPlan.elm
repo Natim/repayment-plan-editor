@@ -14,13 +14,13 @@ import Json.Encode as Encode
 
 
 generator : Model -> Html Msg
-generator { markup, capital, date, installment } =
+generator { markup, left_to_pay, date, installment } =
     div []
         [ p []
             [ label [ style "width" "200px" ]
-                [ text "Capital: "
+                [ text "Left to pay: "
                 ]
-            , input [ type_ "text", style "text-align" "center", UpdateGenerator Generator.Capital |> onInput, value capital ] []
+            , input [ type_ "text", style "text-align" "center", UpdateGenerator Generator.LeftToPay |> onInput, value left_to_pay ] []
             ]
         , p []
             [ label [ style "width" "200px" ]

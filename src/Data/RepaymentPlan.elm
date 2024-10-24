@@ -8,6 +8,7 @@ module Data.RepaymentPlan exposing
     , empty
     , encode
     , fromFlagsRepaymentPlan
+    , totalAmount
     )
 
 import Data.Decimal as Decimal exposing (euros, percent)

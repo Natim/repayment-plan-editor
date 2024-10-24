@@ -40,10 +40,10 @@ init flags =
     in
     ( { repayment_plan = repayment_plan
       , commission_percentage = RepaymentPlan.commissionPercentage repayment_plan
-      , capital_amount = RepaymentPlan.capitalAmount repayment_plan
+      , left_to_pay_amount = RepaymentPlan.totalAmount repayment_plan
       , installment_amount = first_installment.cash_flow
       , markup = RepaymentPlan.commissionPercentage repayment_plan |> Decimal.mul (Decimal.fromInt 100) |> percent
-      , capital = RepaymentPlan.capitalAmount repayment_plan |> euros
+      , left_to_pay = RepaymentPlan.totalAmount repayment_plan |> euros
       , date = first_installment.date
       , installment = first_installment.amount
       }
@@ -143,10 +143,10 @@ update msg ({ repayment_plan, commission_percentage } as model) =
                     , Cmd.none
                     )
 
-                Generator.Capital ->
+                Generator.LeftToPay ->
                     ( { model
-                        | capital = value
-                        , capital_amount =
+                        | left_to_pay = value
+                        , left_to_pay_amount =
                             Decimal.fromString value
                                 |> Maybe.withDefault Decimal.zero
                       }
