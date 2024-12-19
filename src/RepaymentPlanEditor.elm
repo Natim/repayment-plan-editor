@@ -98,7 +98,13 @@ update msg ({ repayment_plan, commission_percentage } as model) =
                                             Just { x | date = value }
 
                                         Installment.Amount ->
-                                            case Decimal.fromString value of
+                                            let
+                                                amount =
+                                                    value
+                                                        |> String.replace " " ""
+                                                        |> String.replace "," "."
+                                            in
+                                            case Decimal.fromString amount of
                                                 Just decimalValue ->
                                                     let
                                                         capital_amount =
@@ -134,20 +140,32 @@ update msg ({ repayment_plan, commission_percentage } as model) =
                     ( { model | date = value }, Cmd.none )
 
                 Generator.Installment ->
+                    let
+                        amount =
+                            value
+                                |> String.replace " " ""
+                                |> String.replace "," "."
+                    in
                     ( { model
-                        | installment = value
+                        | installment = amount
                         , installment_amount =
-                            Decimal.fromString value
+                            Decimal.fromString amount
                                 |> Maybe.withDefault Decimal.zero
                       }
                     , Cmd.none
                     )
 
                 Generator.LeftToPay ->
+                    let
+                        amount =
+                            value
+                                |> String.replace " " ""
+                                |> String.replace "," "."
+                    in
                     ( { model
-                        | left_to_pay = value
+                        | left_to_pay = amount
                         , left_to_pay_amount =
-                            Decimal.fromString value
+                            Decimal.fromString amount
                                 |> Maybe.withDefault Decimal.zero
                       }
                     , Cmd.none
@@ -155,12 +173,17 @@ update msg ({ repayment_plan, commission_percentage } as model) =
 
                 Generator.Commission ->
                     let
+                        amount =
+                            value
+                                |> String.replace " " ""
+                                |> String.replace "," "."
+
                         decimalValue =
-                            Decimal.fromString value
+                            Decimal.fromString amount
                                 |> Maybe.withDefault Decimal.zero
                     in
                     ( { model
-                        | markup = value
+                        | markup = amount
                         , commission_percentage =
                             Decimal.fastdiv decimalValue (Decimal.fromInt 100)
                                 |> Maybe.withDefault Decimal.zero
